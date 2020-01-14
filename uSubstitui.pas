@@ -37,28 +37,36 @@ function TSubstitui.Substituir(aStr, aVelho, aNovo: String): String;
   begin
     aQntCaracteres := 0;
     aResultado := '';
-    for aPosicao := 1 to Length(pStr) do
-    begin
-      if pStr[aPosicao] = aVelho[aQntCaracteres+1] then
-        aQntCaracteres := aQntCaracteres + 1
-      else begin
-        aQntCaracteres := 0;
 
-        if pStr[aPosicao] = aVelho[1] then
-          aQntCaracteres := 1;
-      end;
+    if Length(pStr) > 0 then begin
+      if Length(aVelho) > 0 then
+        for aPosicao := 1 to Length(pStr) do
+        begin
+          if pStr[aPosicao] = aVelho[aQntCaracteres+1] then
+            aQntCaracteres := aQntCaracteres + 1
+          else begin
+            aQntCaracteres := 0;
 
-      if aQntCaracteres = Length(aVelho) then begin
-        aResultado := CortaString(pStr, 1, aPosicao - aQntCaracteres) + aNovo;
-        Result := aResultado + Substitui(CortaString(pStr, aPosicao +1, Length(pStr)));
-        Exit;
-      end;
-    end;
+            if pStr[aPosicao] = aVelho[1] then
+              aQntCaracteres := 1;
+          end;
+
+          if aQntCaracteres = Length(aVelho) then begin
+            aResultado := CortaString(pStr, 1, aPosicao - aQntCaracteres) + aNovo;
+            Result := aResultado + Substitui(CortaString(pStr, aPosicao +1, Length(pStr)));
+            Exit;
+          end;
+        end
+    end else
+      if Length(aVelho) = 0 then
+        aResultado := aNovo;
 
     if aResultado = '' then
-      Result := pStr;
-  end; 
-  
+      aResultado := pStr;
+
+    Result := aResultado;
+  end;
+
 begin
   Result := Substitui(aStr);
 end;
